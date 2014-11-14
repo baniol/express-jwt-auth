@@ -1,8 +1,9 @@
-# Express Api Authorisation
+## Express Api Authorisation
 
-`express-api-auth` is a request authorizatoin express middleware. It makes use of JSON Web Token for user authorization.
+Middleware for user authorization and authentication with JSON Web Token. Uses MongoDB for user storage.
 
-## Features
+### Features
+
 * user registration
 * user login
 * edit user
@@ -10,13 +11,15 @@
 * account removal
 * keep alive for token expiration time refresh
 
-## Quick start
+### Quick start
 
-`npm install express-api-auth`
-
-### Example of the module integration in your server js file:
-
+```bash
+npm install express-api-auth
 ```
+
+#### Example integration:
+
+```javascript
 var express = require('express');
 var app = express();
 var http = require('http');
@@ -53,7 +56,7 @@ server.listen(3000);
 
 ```
 
-## Options
+### Options
 
 Name | Default value | Description
 --- | --- | ---
@@ -67,21 +70,68 @@ Name | Default value | Description
 `corsDomains` | - | Array with allowed domains. Ex. `['http://mydomain.com', 'http://example.com']`
 `mailer` | - | Object for nodemailer module. For details see .... TODO ...
 
-## API
+### Secured requests
 
-Below are the default urls, that can be customized via settings.
+Secured requests must contain a header parameter with JSON Web Token string: `Authorization:Bearer <JWT string>`
 
-Url | Method | Parameters | Returns | Description
---- | --- | --- | --- | ---
-`auth/signup` | POST {| username, email, password} | -| registering user
-`auth/login` | POST | {username/email, password} | - | logging in
-`auth/editprofile` | POST | {username, email, password} | - | 
-`auth/removeaccount` POST | - | {}
-`auth/checkauth` | POST | {} | empty string | check if a request with a given token is authorized
-`auth/keepalive` | POST | {} | token string | request for refreshing token expiration date
-`remindpassword` | POST | {email} | - | request for reset link, sent via email
-`resetpassword` | POST | {password} | - | sending a new password
+### API
 
-## Tests
+###`signup` 
 
-## Example Front-End implementation
+  If the signup request is valid (payload parameters validated: username, email and password) it returns a json object: `{token: <JWT string>}`
+
+##### Errors
+
+> error code `400`
+
+Collection of validation errors. For example: `[{"msg":"Email already exists","param":"email"},{"msg":"Username already exists","param":"username"}]`
+
+###`login`
+
+Successful login (request payload parameters: username and password) returns a json object: `{token: <JWT string>}`
+
+##### Errors
+
+> error code `401`
+
+Object: `{"msg":"Unauthorized"}`
+
+###`editprofile`
+
+If payload parameters are valid (username, email and optional password) a json object: `{token: <JWT string>}`. Updates password only if the password parameter is not empty.
+
+##### Errors ?????
+
+> error code `401` ????
+
+###`removeaccount`
+
+###`checkauth`
+
+Returns code 200 or 401 in case the token is not validated
+
+###`keepalive`
+
+Should be send using intervals. Returns refreshed token: `{token: <JWT string>}`.
+
+###`remindpassword`
+
+If the payload email is validated sends an email with reset password link. Returns: `{"msg":"new_password_sent"}`. Requires nodemailer transport settings.
+
+##### Errors 
+
+> error code `400`
+
+`[{"msg":"Email not found","param":"email"}]`
+
+###`resetpassword`
+
+Sends a new password provided by user. Payload parameters: password string, reset token from query string parameter.
+
+### Tests
+
+### Example Front-End implementation
+
+### License
+
+  [MIT](LICENSE)
