@@ -20,7 +20,7 @@ describe('Registering', function() {
         // confirmPassword: 'testpassword'
       })
       .end(function(e, res) {
-        res.status.should.eql(401);
+        res.status.should.eql(400);
         res.body[0].should.have.property('param', 'email');
         res.body[0].should.have.property('msg', 'Email is not valid');
         done();
@@ -36,7 +36,7 @@ describe('Registering', function() {
         // confirmPassword: 'tes'
       })
       .end(function(e, res) {
-        res.status.should.eql(401);
+        res.status.should.eql(400);
         res.body[0].should.have.property('param', 'password');
         res.body[0].should.have.property('msg', 'Password must be at least 4 characters long');
         done();
@@ -52,7 +52,7 @@ describe('Registering', function() {
         // confirmPassword: 'testPassword'
       })
       .end(function(e, res) {
-        res.status.should.eql(401);
+        res.status.should.eql(400);
         res.body[0].should.have.property('param', 'username');
         res.body[0].should.have.property('msg', 'Username must be at least 4 characters long');
         done();
@@ -68,7 +68,7 @@ describe('Registering', function() {
         // confirmPassword: 'ss'
       })
       .end(function(e, res) {
-        res.status.should.eql(401);
+        res.status.should.eql(400);
         res.body[0].should.have.property('param', 'username');
         res.body[0].should.have.property('msg', 'Username must be at least 4 characters long');
         res.body[1].should.have.property('param', 'email');

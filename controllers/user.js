@@ -20,7 +20,7 @@ UserController.prototype.signup = function (req, res, next) {
   // req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
   var errors = req.validationErrors();
   if (errors) {
-    res.status(401).json(errors);
+    res.status(400).json(errors);
     return false;
   }
   var data = req.body;
