@@ -53,7 +53,7 @@ var settings = {
     }
   }
 };
-var auth = require('express-api-auth')(app, settings);
+var auth = require('express-jwt-auth')(app, settings);
 
 app.use(bodyParser.json());
 
