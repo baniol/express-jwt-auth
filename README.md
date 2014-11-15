@@ -2,7 +2,7 @@
 
 Middleware for user authorization and authentication with JSON Web Token. Uses MongoDB for data storage.
 
-**The module is in early beta stage. It has not been widely tested in real applications.**
+**The module is in early beta stage.**
 
 ### Features
 
@@ -70,11 +70,11 @@ Name | Default value | Description
 `urlStrings` | {<br>signup: '/signup',<br>login: '/login',<br>remindpassword: '/remindpassword',<br>resetpassword: '/resetpassword',<br>checkauth: '/checkauth',<br>keepalive: '/keepalive',<br>editprofile: '/editprofile',<br>removeaccount: '/removeaccount'<br>} | Object with url strings.
 `removeCallback` | - | Execute a callback on account remove. The callback returns removed user id.
 `logFile` | - | Log file name/path.
-`tokenSecret` | 53cr3t-h3re-p9t | String for salting token encryption (TODO).
+`tokenSecret` | 53cr3t-h3re-p9t | String for salting token encryption.
 `serviceUrl` | http://example.com/# | Url for reset password link. Should contain trailing slash or hashbang if needed.
 `tokenExpire` | 300 | Token expiration period in seconds.
 `corsDomains` | - | Array with allowed domains. Ex. `['http://mydomain.com', 'http://example.com']`
-`mailer` | - | Object for nodemailer module. For details see .... TODO ...
+`mailer` | - | Transport settings for nodemailer module. [More details](https://github.com/andris9/Nodemailer#examples)
 
 ### Secured requests
 
@@ -82,15 +82,15 @@ Secured requests must contain a header parameter with JSON Web Token string: `Au
 
 ### API
 
-###`signup` 
+###`signup`
 
   If the signup request is valid (payload parameters validated: username, email and password) it returns a json object: `{token: <JWT string>}`
 
 ##### Errors
 
-> error code `400` (@TODO or 409)
+If the payload data is invalid (username, email, password) the server returns a collection of error objects, for example: `[{"param":"username","msg":"Username must be at least 4 characters long","value":"dd"},{"param":"password","msg":"Password must be at least 4 characters long","value":"ee"}]` with status code `400`.
 
-Collection of validation errors. For example: `[{"msg":"Email already exists","param":"email"},{"msg":"Username already exists","param":"username"}]`
+In case of data conflict (existing username or email): `[{"msg":"Email already exists","param":"email"},{"msg":"Username already exists","param":"username"}]`. Status code is `409`.
 
 ###`login`
 
@@ -98,17 +98,15 @@ Successful login (request payload parameters: username and password) returns a j
 
 ##### Errors
 
-> error code `401`
-
-Object: `{"msg":"Unauthorized"}`
+Object: `{"msg":"Unauthorized"}`. Status code `401`.
 
 ###`editprofile`
 
 If payload parameters are valid (username, email and optional password) retuns a json object: `{token: <JWT string>}`. Updates password only if the password string is not empty.
 
-##### Errors ?????
+##### Errors
 
-> error code `401` ????
+The same as for `signup`.
 
 ###`removeaccount`
 
@@ -126,9 +124,7 @@ If the payload email is validated sends an email with reset password link. Retur
 
 ##### Errors 
 
-> error code `400`
-
-`[{"msg":"Email not found","param":"email"}]`
+`[{"msg":"Email not found","param":"email"}]`. Status code `400`.
 
 ###`resetpassword`
 
@@ -136,8 +132,12 @@ Sends a new password provided by user. Payload parameters: password string, rese
 
 ### Tests
 
+Run tests with `npm test`.
+
 ### Example Front-End implementation
 
 ### License
 
-  [MIT](LICENSE)
+[The MIT License](http://opensource.org/licenses/MIT)
+
+Copyright (c) 2014 Marcin Baniowski <http://baniowski.net>
