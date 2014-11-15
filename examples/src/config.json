@@ -1,8 +1,0 @@
-{
-  "name": "MyApp.config",
-  "constants": {
-    "apiUrlRemote": "http://api-auth.projectalfa.eu",
-    "apiUrl": "http://localhost:3002",
-    "KeepAliveInterval": "250"
-  }
-}
