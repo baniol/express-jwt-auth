@@ -136,6 +136,10 @@ Run tests with `npm test`.
 
 ### Example Front-End implementation
 
+Angularjs example can be found in `examples` directory: [https://github.com/baniol/express-jwt-auth/tree/master/examples](https://github.com/baniol/express-jwt-auth/tree/master/examples).
+
+Follow the instructions from the readme file.
+
 ### License
 
 [The MIT License](http://opensource.org/licenses/MIT)

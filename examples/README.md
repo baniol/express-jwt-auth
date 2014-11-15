@@ -1,16 +1,8 @@
-### AngularJS authorisation boilerplate.
-Based on : [https://github.com/sahat/tvshow-tracker](https://github.com/sahat/tvshow-tracker)
+### AngularJS authorisation example.
 
 ### Installation
 
-Make sure you have `node`, `npm`, `gulp` and `bower` installed on your development machine.
-
-* `npm install`
-* `bower install`
-
-To run the project locally: `gulp serve`.
-
-### Running the server with `express-jwt-auth` module
+#### Prepare the express server with the express-jwt-module
 
 Set up a nodejs server in a separate directory with `package.json` and `server.js` files:
 
@@ -64,3 +56,15 @@ app.get('/api/test', auth, function(req, res) {
 server.listen(3000);
 
 ```
+
+#### Install and run angularjs example
+
+Make sure you have `node`, `npm`, `gulp` and `bower` installed.
+
+* `npm install`
+* `bower install`
+
+To run the project locally: `gulp serve`.
+
+### Resources
+This example is based on: [https://github.com/sahat/tvshow-tracker](https://github.com/sahat/tvshow-tracker)
