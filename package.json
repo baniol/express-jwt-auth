@@ -1,6 +1,6 @@
 {
   "name": "express-api-auth",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "main": "./lib/express-api-auth.js",
   "scripts": {
     "test": "mocha tests/test.js",
