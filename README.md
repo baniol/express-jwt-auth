@@ -1,4 +1,4 @@
-## Express Api Authorisation
+## Express JWT Auth
 
 Middleware for user authorization and authentication with JSON Web Token. Uses MongoDB for data storage.
 
@@ -16,7 +16,7 @@ Middleware for user authorization and authentication with JSON Web Token. Uses M
 ### Quick start
 
 ```bash
-npm install express-api-auth
+npm install express-jwt-auth
 ```
 
 #### Example integration:
