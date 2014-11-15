@@ -104,7 +104,7 @@ Object: `{"msg":"Unauthorized"}`
 
 ###`editprofile`
 
-If payload parameters are valid (username, email and optional password) a json object: `{token: <JWT string>}`. Updates password only if the password parameter is not empty.
+If payload parameters are valid (username, email and optional password) retuns a json object: `{token: <JWT string>}`. Updates password only if the password string is not empty.
 
 ##### Errors ?????
 

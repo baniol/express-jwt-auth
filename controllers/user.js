@@ -130,13 +130,12 @@ UserController.prototype.editProfile = function (req, res, next) {
 
             user.save(function(err) {
               if (err) {
-                console.log(err);
                 logger.error('Error updating user account. User id: ' + req.user._id + ' Err: ' + err);
                 res.status(401).json({msg: 'update_error'});
               }
               else {
                 var newToken = generateToken(user);
-                res.json(newToken);
+                res.json({token: newToken});
               }
             });
           }
