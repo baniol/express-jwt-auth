@@ -1,0 +1,44 @@
+<div class="container" ng-keydown="keyPress($event)">
+  <div class="row">
+    <div class="center-form panel">
+      <div class="panel-body">
+        <form method="post" ng-submit="editSubmit()" name="editForm" autocomplete="off" novalidate>
+          <h2 class="text-center">Edit Profile</h2>
+
+          <div class="form-group has-feedback" ng-class="{ 'has-error' : editForm.username.$invalid && editForm.username.$dirty }">
+            <input class="form-control input-lg" type="text" name="username" ng-model="username" placeholder="Name">
+            <span class="ion-person form-control-feedback"></span>
+            <div class="help-block text-danger" ng-show="editForm.username.$dirty && editForm.username.$invalid">
+              <div ng-show="editForm.username.$error.server">{{editForm.username.$error.server}}</div>
+            </div>
+          </div>
+
+          <div class="form-group has-feedback" ng-class="{ 'has-error' : editForm.email.$invalid && editForm.email.$dirty }">
+            <input class="form-control input-lg" type="email" id="email" name="email" ng-model="email" placeholder="Email">
+            <span class="ion-at form-control-feedback"></span>
+            <div class="help-block text-danger" ng-show="editForm.email.$dirty && editForm.email.$invalid">
+              <div ng-show="editForm.email.$error.server">{{editForm.email.$error.server}}</div>
+            </div>
+          </div>
+
+          <div class="form-group has-feedback" ng-class="{ 'has-error' : editForm.password.$invalid && editForm.password.$dirty }">
+            <input class="form-control input-lg" type="password" value="" name="password" ng-model="password" placeholder="Password">
+            <span class="ion-key form-control-feedback"></span>
+            <div class="help-block text-danger" ng-show="editForm.password.$dirty && editForm.password.$invalid">
+              <div ng-show="editForm.password.$error.server">{{editForm.password.$error.server}}</div>
+            </div>
+          </div>
+
+          <button type="submit" ng-disabled="editForm.$invalid || inProgress" class="btn btn-lg btn-block btn-primary">
+            <span data-animation="true" ng-show="inProgress" class="ion-looping"></span>
+            <span>Save</span>
+          </button>
+        </form>
+
+        <button class="btn btn-lg btn-block btn-error" ng-click="removeAccount()">
+          <span>Delete Account</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
