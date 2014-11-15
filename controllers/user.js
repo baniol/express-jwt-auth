@@ -84,6 +84,17 @@ UserController.prototype.removeAccount = function (req, res, next) {
 
 UserController.prototype.editProfile = function (req, res, next) {
   var data = req.body;
+  req.assert('username', 'Username must be at least 4 characters long').len(4);
+  req.assert('email', 'Email is not valid').isEmail();
+  if (data.password) {
+    req.assert('password', 'Password must be at least 4 characters long').len(4);
+  }
+  // req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
+  var errors = req.validationErrors();
+  if (errors) {
+    res.status(400).json(errors);
+    return false;
+  }
   userHelper.checkIfUserExists(req.user, data, function (result) {
     if (result === 'user_uniq') {
       User.findOne({_id: req.user._id}, function (err, user) {
