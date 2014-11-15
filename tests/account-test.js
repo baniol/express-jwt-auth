@@ -213,7 +213,6 @@ describe('Edit profile', function () {
       })
       .end(function(e, res) {
         res.status.should.eql(200);
-        // res.body.should.have.property('msg', 'User successfully registered');
         res.body.should.have.property('token');
         done();
       });
@@ -234,10 +233,57 @@ describe('Edit profile', function () {
       });
   });
 
+  it('tries to edit profile with an invalid username', function(done) {
+    superagent.post(host + config.signupUrl)
+      .send({
+        username: 'ee',
+        email: config.loginUserTwo.email
+      })
+      .set('Authorization', 'Bearer ' + token)
+      .end(function(e, res) {
+        res.status.should.eql(400);
+        res.body[0].should.have.property('param', 'username');
+        res.body[0].should.have.property('msg', 'Username must be at least 4 characters long');
+        done();
+      });
+  });
+
+  it('tries to edit profile with an invalid email', function(done) {
+    superagent.post(host + config.signupUrl)
+      .send({
+        username: config.loginUserTwo.username,
+        email: ''
+      })
+      .set('Authorization', 'Bearer ' + token)
+      .end(function(e, res) {
+        res.status.should.eql(400);
+        res.body[0].should.have.property('param', 'email');
+        res.body[0].should.have.property('msg', 'Email is not valid');
+        done();
+      });
+  });
+
+  it('tries to edit profile with an invalid password', function(done) {
+    superagent.post(host + config.signupUrl)
+      .send({
+        username: config.loginUserTwo.username,
+        email: config.loginUserTwo.email,
+        password: 'dd'
+      })
+      .set('Authorization', 'Bearer ' + token)
+      .end(function(e, res) {
+        res.status.should.eql(400);
+        res.body[0].should.have.property('param', 'password');
+        res.body[0].should.have.property('msg', 'Password must be at least 4 characters long');
+        done();
+      });
+  });
+
   it('tries to change username to existing', function(done) {
     superagent.post(host + config.editProfileUrl)
       .send({
-        username: config.loginUserTwo.username
+        username: config.loginUserTwo.username,
+        email: config.loginUser.email
       })
       .set('Authorization', 'Bearer ' + token)
       .end(function(e, res) {
@@ -251,6 +297,7 @@ describe('Edit profile', function () {
   it('tries to change email to existing', function(done) {
     superagent.post(host + config.editProfileUrl)
       .send({
+        username: config.loginUser.username,
         email: config.loginUserTwo.email
       })
       .set('Authorization', 'Bearer ' + token)
