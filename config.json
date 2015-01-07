@@ -2,6 +2,7 @@
   "dbname" : "express-api-auth",
   "tokenSecret" : "53cr3t-h3re-p9t",
   "tokenExpire": "600",
-  "serviceUrl": "http://example.com/#",
+  "serviceUrl": "",
+  "serviceUrlSeparator": "",
   "removeCallback": ""
 }

@@ -163,7 +163,8 @@ UserController.prototype.remindPassword = function(req, res) {
       user.resetToken = resetToken;
 
       // Generate reset password link
-      var link = nconf.get('serviceUrl') + 'resetpassword?token=' + resetToken;
+      var serviceUrl = nconf.get('serviceUrl') || req.headers.referer;
+      var link = serviceUrl + nconf.get('serviceUrlSeparator') + 'resetpassword?token=' + resetToken;
 
       user.save(function(err) {
         if (err) {
