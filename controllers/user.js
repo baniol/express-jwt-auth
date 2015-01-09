@@ -17,7 +17,6 @@ UserController.prototype.signup = function (req, res, next) {
   req.assert('username', 'Username must be at least 4 characters long').len(4);
   req.assert('email', 'Email is not valid').isEmail();
   req.assert('password', 'Password must be at least 4 characters long').len(4);
-  // req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
   var errors = req.validationErrors();
   if (errors) {
     res.status(400).json(errors);
@@ -46,7 +45,6 @@ UserController.prototype.signup = function (req, res, next) {
 };
 
 UserController.prototype.login = function (req, res, next) {
-  // req.assert('email', 'Email is not valid').isEmail();
   req.assert('username', 'Username cannot be blank').notEmpty();
   req.assert('password', 'Password cannot be blank').notEmpty();
   var errors = req.validationErrors();
@@ -89,7 +87,6 @@ UserController.prototype.editProfile = function (req, res, next) {
   if (data.password) {
     req.assert('password', 'Password must be at least 4 characters long').len(4);
   }
-  // req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
   var errors = req.validationErrors();
   if (errors) {
     res.status(400).json(errors);
@@ -148,24 +145,27 @@ UserController.prototype.editProfile = function (req, res, next) {
 };
 
 UserController.prototype.remindPassword = function(req, res) {
-  if (req.body.email === '') {
+  var email = req.body.email;
+  var url = req.body.url;
+  if (email === '' || !email) {
     res.status(400).json([{msg: 'Email cannot be empty', param: 'email'}]);
     return;
   }
-  User.findOne({email: req.body.email}, function(err, user) {
+  if (url === '' || !url) {
+    res.status(400).json([{msg: 'Url for reset password link is not specified', param: 'url'}]);
+    return;
+  }
+  User.findOne({email: email}, function(err, user) {
     if (!user) {
-      logger.info('User not found based on email for password reset. Email requested: ' + req.body.email);
+      logger.info('User not found based on email for password reset. Email requested: ' + email);
       res.status(400).json([{msg: 'Email not found', param: 'email'}]);
     }
     else {
       // Generate random password
       var resetToken = utils.randomString(16);
       user.resetToken = resetToken;
-
       // Generate reset password link
-      var serviceUrl = nconf.get('serviceUrl') || req.headers.referer;
-      var link = serviceUrl + nconf.get('serviceUrlSeparator') + 'resetpassword?token=' + resetToken;
-
+      var link = url + nconf.get('urlStrings').resetpassword + '?token=' + resetToken;
       user.save(function(err) {
         if (err) {
           logger.error('Error saving user new password');

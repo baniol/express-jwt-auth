@@ -30,7 +30,7 @@ var path = require('path');
 var bodyParser = require('body-parser');
 
 var settings = {
-  dbname: 'simple-api-auth',
+  mongoconnection: 'mongodb://localhost:27017/dbname',
   logFile: path.join(__dirname, 'authlogger.log'),
   corsDomains: ['http://localhost:5000'],
   // Nodemailer settings, used for resetting password
@@ -60,18 +60,17 @@ server.listen(3000);
 
 ### Securing routes
 
-express-api-auth is a middleware meaning you can pass the module to express routing as an agrument, as in the integration example above: `app.get('/api/test', auth, function(req, res) { ...`
+express-jwt-auth is a middleware, meaning you can pass the module to express routing as an agrument, as in the integration example above: `app.get('/api/test', auth, function(req, res) { ...`
 
 ### Options
 
 Name | Default value | Description
 --- | --- | ---
-`dbname` | express-api-auth | MongoDB database name.
+`mongoconnection` | - | MongoDB connection string, ex. `mongodb://localhost:27017/my-notes`.
 `urlStrings` | {<br>signup: '/signup',<br>login: '/login',<br>remindpassword: '/remindpassword',<br>resetpassword: '/resetpassword',<br>checkauth: '/checkauth',<br>keepalive: '/keepalive',<br>editprofile: '/editprofile',<br>removeaccount: '/removeaccount'<br>} | Object with url strings.
 `removeCallback` | - | Execute a callback on account remove. The callback returns removed user id.
 `logFile` | - | Log file name/path.
 `tokenSecret` | 53cr3t-h3re-p9t | String for salting token encryption.
-`serviceUrl` | http://example.com/# | Url for reset password link. Should contain trailing slash or hashbang if needed.
 `tokenExpire` | 300 | Token expiration period in seconds.
 `corsDomains` | - | Array with allowed domains. Ex. `['http://mydomain.com', 'http://example.com']`
 `mailer` | - | Transport settings for nodemailer module. [More details](https://github.com/andris9/Nodemailer#examples)
@@ -120,6 +119,7 @@ Should be send using intervals. Returns refreshed token: `{token: <JWT string>}`
 
 ###`remindpassword`
 
+The post data must contain `email` and `url` parameters. `url` should be the domain of your service. For example for url set to `http://example.com` a reset password link will be generated and sent to the user: `http://example.com/resetpassword?token=<token_string>`.
 If the payload email is validated sends an email with reset password link. Returns: `{"msg":"new_password_sent"}`. Requires nodemailer transport settings.
 
 ##### Errors 
