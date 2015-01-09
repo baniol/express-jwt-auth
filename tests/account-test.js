@@ -336,7 +336,7 @@ describe('Edit profile', function () {
       .end(function(e, res) {
         res.status.should.eql(200);
         // Assigh the new token
-        token = res.body;
+        token = res.body.token;
         var u = JSON.parse(atob(token.split('.')[1]));
         var newName = u.user.name;
         newName.should.eql('username_changed');
@@ -354,7 +354,7 @@ describe('Edit profile', function () {
       .end(function(e, res) {
         res.status.should.eql(200);
         // Assigh the new token
-        token = res.body;
+        token = res.body.token;
         var u = JSON.parse(atob(token.split('.')[1]));
         var newEmail = u.user.email;
         newEmail.should.eql('email@changed.now');

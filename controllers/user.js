@@ -239,7 +239,7 @@ UserController.prototype.checkAuth = function (req, res, next) {
       }
     }
     catch (err) {
-      return res.send(500, 'Error parsing token');
+      return res.status(500).send('Error parsing token');
     }
   }
   else {

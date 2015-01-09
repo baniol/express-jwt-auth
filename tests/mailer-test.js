@@ -55,7 +55,7 @@ describe('Forgot Password', function() {
 
   it('remind password with non existing email', function(done) {
     superagent.post(host + config.remindPasswordUrl)
-      .send({email: 'asdf@sadf.oo'})
+      .send({email: 'asdf@sadf.oo', url: 'http://example.com'})
       .end(function(e, res) {
         res.status.should.eql(400);
         res.body[0].should.have.property('param', 'email');
@@ -66,7 +66,7 @@ describe('Forgot Password', function() {
 
   it('remind password with an existing email', function(done) {
     superagent.post(host + config.remindPasswordUrl)
-      .send({email: config.loginUser.email})
+      .send({email: config.loginUser.email, url: 'http://example.com'})
       .end(function(e, res) {
         res.status.should.eql(200);
         // Read a new password from the test file
@@ -81,7 +81,7 @@ describe('Forgot Password', function() {
 
   it('generates a links with a reset token', function(done) {
     superagent.post(host + config.remindPasswordUrl)
-      .send({email: config.loginUser.email})
+      .send({email: config.loginUser.email, url: 'http://example.com'})
       .end(function(e, res) {
         res.status.should.eql(200);
         // Read a new password from the test file
