@@ -136,7 +136,7 @@ Run tests with `npm test`.
 
 ### Example Front-End implementation
 
-Angularjs example can be found in a separate repository: [https://github.com/baniol/angularjs-auth](https://github.com/baniol/angularjs-auth)
+Angularjs example can be found in a separate repository: [https://github.com/baniol/angular-auth-foundation](https://github.com/baniol/angular-auth-foundation)
 
 Follow the instructions from the readme file.
 
